@@ -6,7 +6,7 @@ export const achievementsSchema = Joi.object(
             award: Joi.string(),
             description: Joi.string(),
             image: Joi.string(),
-            date: Joi.date(),
+            date: Joi.string(),
             nameOfInstitution: Joi.string()
         }
     ]

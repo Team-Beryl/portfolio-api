@@ -6,8 +6,8 @@ export const experienceSchema = Joi.object(
         role: Joi.string(),
         responsibility: Joi.string(),
         location: Joi.string(),
-        startDate: Joi.date(),
-        endDate: Joi.date(),
+        startDate: Joi.string().required(),
+        endDate: Joi.string(),
         skills: Joi.string()
     }
 )

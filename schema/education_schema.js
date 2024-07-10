@@ -7,8 +7,8 @@ export const educationSchema = Joi.object(
         qualification: Joi.string(),
         grade: Joi.string(),
         location: Joi.string(),
-        startDate: Joi.date(),
-        endDate: Joi.date()
+        startDate: Joi.string().required(),
+        endDate: Joi.string()
 
     }
 )
