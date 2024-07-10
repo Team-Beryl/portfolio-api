@@ -12,6 +12,8 @@ const userSchema = new Schema({
     password: { type: String },
     termsAndConditions: { type: Boolean },
 
+}, {
+    timestamps:true
 })
 
 userSchema.plugin(toJSON);

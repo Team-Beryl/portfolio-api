@@ -14,7 +14,9 @@ const experienceSchema = new Schema(
             user: {type: Types.ObjectId, ref: 'User'}
 
         }
-    ]
+    ], {
+        timestamps:true
+    }
 )
 
 experienceSchema.plugin(toJSON)

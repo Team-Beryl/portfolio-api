@@ -11,7 +11,9 @@ const achievementsSchema = new Schema(
             nameOfInstitution: { type: String },
             user: {type: Types.ObjectId, ref: 'User'}
         }
-    ]
+    ], {
+        timestamps:true
+    }
 )
 
 achievementsSchema.plugin(toJSON)

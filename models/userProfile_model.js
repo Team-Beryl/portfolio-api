@@ -17,6 +17,8 @@ const userProfileSchema = new Schema({
         twitterLink: { type: String },
         user: {type: Types.ObjectId, ref: 'User'}
 
+}, {
+    timestamps:true
 })
 
 userProfileSchema.plugin(toJSON);

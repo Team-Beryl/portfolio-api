@@ -13,7 +13,9 @@ const educationSchema = new Schema(
             endDate: { type: String },
             user: {type: Types.ObjectId, ref: 'User'}
 
-        }]
+        }], {
+            timestamps:true
+        }
     
 )
 
