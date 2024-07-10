@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const achievementsSchema = Joi.object(
-    [
+    
         {
             award: Joi.string(),
             description: Joi.string(),
@@ -9,5 +9,5 @@ export const achievementsSchema = Joi.object(
             date: Joi.string(),
             nameOfInstitution: Joi.string()
         }
-    ]
+    
 )

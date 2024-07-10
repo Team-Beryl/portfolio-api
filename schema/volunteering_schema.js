@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const volunteringSchema = Joi.object(
-    [
+    
         {
             organization: Joi.string(),
             description: Joi.string(),
@@ -13,5 +13,5 @@ export const volunteringSchema = Joi.object(
             responsibility: Joi.string(),
             projectName: Joi.string(),
         }
-    ],
+        
 )
