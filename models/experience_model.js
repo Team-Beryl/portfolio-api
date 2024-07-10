@@ -3,7 +3,7 @@ import { toJSON } from "@reis/mongoose-to-json";
 
 const experienceSchema = new Schema(
      
-       [ {
+        {
             companyName: { type: String },
             role: { type: String },
             responsibility: { type: String },
@@ -13,8 +13,8 @@ const experienceSchema = new Schema(
             skills: { type: String },
             user: {type: Types.ObjectId, ref: 'User'}
 
-        }
-    ], {
+        },
+    {
         timestamps:true
     }
 )
