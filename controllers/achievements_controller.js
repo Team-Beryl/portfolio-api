@@ -26,7 +26,7 @@ export const addAchievement = async (req, res, next)=>{
         await user.save();
 
         //return the achievement
-        res.status(201).json(education)
+        res.status(201).json(achievement)
     } catch (error) {
        next(error) 
     }
