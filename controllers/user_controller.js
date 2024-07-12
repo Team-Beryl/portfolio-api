@@ -47,8 +47,8 @@ export const login = async (req, res, next) => {
         res.status(401).json('Invalid credentials')
     }else{
     //Generate a session
-    // req.session.user = {id: user.id} 
-    //Return response
+    req.session.user = {id: user.id} 
+   // Return response
     res.status(200).json('Login successful')
 
     }
@@ -81,20 +81,6 @@ export const logout = async (req, res, next) => {
     }
 }
 
-export const profile = async (req, res, next) => {
-   try {
-     //Find user by id
-     const user = await UserModel
-     .findById(req.session.user.id) 
-     .select({password:false})
-     //Return response
-     res.status(200).json(user)
-   } catch (error) {
-    next(error)
-   }
-}
-
-
 export const getUser = async (req, res, next) => {
     try {
       const userId = req.params.id;
@@ -104,15 +90,15 @@ export const getUser = async (req, res, next) => {
       // Use populate to populate the related fields
       const userDetails = await UserModel.findById(userId)
         .select({ password: false })
-        // .populate([
+        .populate([
         //   { path: 'education' },
         //   { path: 'achievements' },
-        //   { path: 'experience' },
+        //   { path: 'experiences' },
         //   { path: 'projects' },
-        //   { path: 'userProfile' },
+          { path: 'userProfile' },
         //   { path: 'volunteering' },
         //   { path: 'skills' } 
-        // ]);
+        ]);
   
       return res.status(200).json({ user: userDetails });
     } catch (error) {
