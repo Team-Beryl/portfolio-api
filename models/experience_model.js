@@ -21,4 +21,4 @@ const experienceSchema = new Schema(
 
 experienceSchema.plugin(toJSON)
 
-const experienceModel = model('Experience', experienceSchema)
+const ExperienceModel = model('Experience', experienceSchema)

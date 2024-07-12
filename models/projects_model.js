@@ -21,4 +21,4 @@ const projectsSchema = new Schema(
 
 projectsSchema.plugin(toJSON)
 
-export const projectsModel = model('Projects', projectsSchema)
+export const ProjectsModel = model('Project', projectsSchema)
