@@ -70,6 +70,30 @@ export const allUsers = async (req, res, next)=>{
     }
 }
 
+export const logout = async (req, res, next) => {
+    try {
+        //Destroy user section
+        await req.session.destroy();
+        //Return response 
+    res.status(200).json('logout successfull')
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const profile = async (req, res, next) => {
+   try {
+     //Find user by id
+     const user = await UserModel
+     .findById(req.session.user.id) 
+     .select({password:false})
+     //Return response
+     res.status(200).json(user)
+   } catch (error) {
+    next(error)
+   }
+}
+
 
 export const getUser = async (req, res, next) => {
     try {
@@ -87,7 +111,7 @@ export const getUser = async (req, res, next) => {
         //   { path: 'projects' },
         //   { path: 'userProfile' },
         //   { path: 'volunteering' },
-        //   { path: 'skills' } // Ensure 'skills' is defined in your schema
+        //   { path: 'skills' } 
         // ]);
   
       return res.status(200).json({ user: userDetails });
