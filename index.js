@@ -8,7 +8,7 @@ dbConnection();
 
 app.use(express.json());
 
-app.use(projectsRouter);
+app.use("/api/v1/", projectsRouter);
 
 const PORT = 4000;
 app.listen(PORT, () => {

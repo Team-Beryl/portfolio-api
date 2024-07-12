@@ -9,14 +9,14 @@ import {
 
 const projectsRouter = Router();
 
-projectsRouter.post("/api/v1/users/projects", postProject);
+projectsRouter.post("users/projects", postProject);
 
-projectsRouter.get("/api/v1/users/projects", getAllUserProjects);
+projectsRouter.get("users/projects", getAllUserProjects);
 
-projectsRouter.get("/api/v1/users/projects/:id", getOneProject);
+projectsRouter.get("users/projects/:id", getOneProject);
 
-projectsRouter.patch("/api/v1/users/projects/:id", updateProject);
+projectsRouter.patch("users/projects/:id", updateProject);
 
-projectsRouter.delete("/api/v1/users/projects/:id", deleteProject);
+projectsRouter.delete("users/projects/:id", deleteProject);
 
 export default projectsRouter;
