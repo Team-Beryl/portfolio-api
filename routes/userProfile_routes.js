@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   deleteUserProfile,
+  getAllUserProfile,
   getAUserProfile,
   getUserProfile,
   patchUserProfile,
@@ -11,17 +12,17 @@ import { remoteUpload } from "../middlewares/upload.js";
 const userProfileRouter = Router();
 
 userProfileRouter.post(
-  "/api/v1/users/userprofiles",
+  "users/userprofiles",
   remoteUpload.single("profilePicture"),
   postUserProfile
 );
 
-userProfileRouter.get("/api/v1/users/userprofiles", getUserProfile);
+userProfileRouter.get("users/userprofiles", getAllUserProfile);
 
-userProfileRouter.get("/api/v1/users/userprofiles/:id", getAUserProfile);
+userProfileRouter.get("users/userprofiles/:id", getAUserProfile);
 
-userProfileRouter.patch("/api/v1/users/userprofiles/:id", patchUserProfile);
+userProfileRouter.patch("users/userprofiles/:id", patchUserProfile);
 
-userProfileRouter.delete("/api/v1/users/userprofiles/:id", deleteUserProfile);
+userProfileRouter.delete("users/userprofiles/:id", deleteUserProfile);
 
 export default userProfileRouter;
