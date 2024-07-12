@@ -9,7 +9,7 @@ dbConnection();
 app.use(express.json());
 
 // routes
-app.use(educationRouter);
+app.use("/api/v1", educationRouter);
 
 const PORT = 4000;
 app.listen(PORT, () => {
