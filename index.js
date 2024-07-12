@@ -8,7 +8,7 @@ dbConnection();
 
 app.use(express.json());
 
-app.use(volunteeringRouter);
+app.use("/api/v1/", volunteeringRouter);
 
 const PORT = 4000;
 app.listen(PORT, () => {

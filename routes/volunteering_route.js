@@ -9,14 +9,14 @@ import {
 
 const volunteeringRouter = Router();
 
-volunteeringRouter.post("/api/v1/users/volunteering", postVolunteering);
+volunteeringRouter.post("volunteering", postVolunteering);
 
-volunteeringRouter.get("/api/v1/users/volunteering", getAllUserVolunteering);
+volunteeringRouter.get("volunteering", getAllUserVolunteering);
 
-volunteeringRouter.get("/api/v1/users/volunteering/:id", getOneVolunteering);
+volunteeringRouter.get("volunteering/:id", getOneVolunteering);
 
-volunteeringRouter.patch("/api/v1/users/volunteering/:id", updateVolunteering);
+volunteeringRouter.patch("volunteering/:id", updateVolunteering);
 
-volunteeringRouter.delete("/api/v1/users/volunteering/:id", deleteVolunteering);
+volunteeringRouter.delete("volunteering/:id", deleteVolunteering);
 
 export default volunteeringRouter;
