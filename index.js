@@ -8,7 +8,7 @@ const app = express();
 dbConnection();
 
 app.use(express.json());
-app.use(skillsRouter);
+app.use('/api/v1', skillsRouter);
 
 const PORT = 4000
 app.listen(PORT, () => {
