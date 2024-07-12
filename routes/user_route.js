@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { allUsers, getUser, login, signup } from "../controllers/user_controller.js";
+import { allUsers, getUser, login, logout, signup } from "../controllers/user_controller.js";
+import { checkUserSession } from "../middlewares/auth.js";
 
 export const userRouter = Router();
 
@@ -7,6 +8,9 @@ userRouter.post('/users/signup', signup);
 
 userRouter.post('/users/login', login);
 
-userRouter.get('/users', allUsers);
+userRouter.post('/users/logout', checkUserSession, logout)
 
-userRouter.get('/users/:id', getUser);
+userRouter.get('/users', checkUserSession, allUsers);
+
+userRouter.get('/users/:username', checkUserSession, getUser);
+
