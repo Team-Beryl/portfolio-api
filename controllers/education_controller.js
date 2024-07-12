@@ -9,14 +9,14 @@ export const postEducation = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    // Create education with 'value'
-    const newEducation = await EducationModel.create(value);
-
     // Find user with the id you passed when creating education
     const user = await UserModel.findById(value.user);
     if (!user) {
       return res.status(404).send("User not found");
     }
+
+    // Create education with 'value'
+    const newEducation = await EducationModel.create(value);
 
     // push education id into user
     user.education.push(newEducation.id);
