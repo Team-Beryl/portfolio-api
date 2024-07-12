@@ -10,14 +10,15 @@ export const addSkill = async (req, res, next)=>{
         if (error){
             return res.status(400).send(error.details[0].message)
         }
-        //create skills with value
-        const skills = await SkillsModel.create(value)
-
+       
         //Find the user with the id that was passed whiles creating the skills
         const user = await UserModel.findById(value.user);
         if(!user){
             return res.status(404).send('User not found');
         }
+         //create skills with value
+         const skills = await SkillsModel.create(value)
++
 
         //If user is found, push the skilsl id created inside
         user.skills.push(skills._id);
@@ -26,7 +27,7 @@ export const addSkill = async (req, res, next)=>{
         await user.save();
 
         //return the skills
-        res.status(201).json(skills)
+        res.status(201).json({skills})
     } catch (error) {
        next(error) 
     }
