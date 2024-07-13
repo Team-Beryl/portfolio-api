@@ -3,7 +3,6 @@ import {
   deleteUserProfile,
   getAllUserProfile,
   getAUserProfile,
-  getUserProfile,
   patchUserProfile,
   postUserProfile,
 } from "../controllers/userProfile_controller.js";

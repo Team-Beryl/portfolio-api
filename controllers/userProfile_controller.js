@@ -9,14 +9,14 @@ export const postUserProfile = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const newProfile = await UserProfileModel.create(value);
-
-    const user = await UserModel.findById(value.user);
+    const user = await UserModel.findById(req.session.user.id);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
-    user.userProfile.push(newProfile.id);
+    const newProfile = await UserProfileModel.create(value);
+
+    user.userProfile = newProfile.id;
 
     await user.save();
 
