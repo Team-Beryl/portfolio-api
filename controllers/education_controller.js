@@ -10,13 +10,17 @@ export const postEducation = async (req, res, next) => {
     }
 
     // Find user with the id you passed when creating education
-    const user = await UserModel.findById(value.user);
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
-    // Create education with 'value'
-    const newEducation = await EducationModel.create(value);
+    // Create education with the 'value'
+    const newEducation = await EducationModel.create({
+      ...value,
+      user: userSessionId,
+    });
 
     // push education id into user
     user.education.push(newEducation.id);
@@ -33,21 +37,13 @@ export const postEducation = async (req, res, next) => {
 // All education associated with one user
 export const getAllUserEducation = async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    const getAllEducation = await EducationModel.find({ user: userId });
+    // Fetching education that belongs to a particular user
+    const userSessionId = req.session.user.id;
+    const getAllEducation = await EducationModel.find({ user: userSessionId });
     if (getAllEducation.length == 0) {
-      return res.status(404).send("No education has been added");
+      return res.status(404).send("No education added");
     }
     res.status(200).json({ education: getAllEducation });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getOneEducation = async (req, res, next) => {
-  try {
-    const singleEducation = await EducationModel.findById(req.params.id);
-    res.status(200).json(singleEducation);
   } catch (error) {
     next(error);
   }
