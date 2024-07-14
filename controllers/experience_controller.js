@@ -9,14 +9,18 @@ export const postExperience = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    // Create experience
-    const newExperience = await ExperienceModel.create(value);
-
-    // Find user with id you passed when creating Experience
-    const user = await UserModel.findById(value.user);
+    // Find user with the id you passed when creating experience
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");
     }
+
+    // Create experience
+    const newExperience = await ExperienceModel.create({
+      ...value,
+      user: userSessionId,
+    });
 
     // push experience id to user
     user.experience.push(newExperience.id);
@@ -32,22 +36,15 @@ export const postExperience = async (req, res, next) => {
 
 export const getAllUserExperience = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const userSessionId = req.session.user.id;
 
-    const getAllExperience = await ExperienceModel.find({ user: userId });
+    const getAllExperience = await ExperienceModel.find({
+      user: userSessionId,
+    });
     if (getAllExperience.length == 0) {
       return res.status(404).send("No experience added");
     }
     res.status(200).json({ experience: getAllExperience });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getOneExperience = async (req, res, next) => {
-  try {
-    const singleExperience = await ExperienceModel.findById(req.params.id);
-    res.status(200).json(singleExperience);
   } catch (error) {
     next(error);
   }
