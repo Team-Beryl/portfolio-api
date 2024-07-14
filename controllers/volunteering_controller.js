@@ -9,12 +9,17 @@ export const postVolunteering = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const newVolunteering = await VolunteeringModel.create(value);
-
-    const user = await UserModel.findById(value.user);
+    // Find user with the id you passed when creating volunteering
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");
     }
+
+    const newVolunteering = await VolunteeringModel.create({
+      ...value,
+      user: userSessionId,
+    });
 
     user.volunteering.push(newVolunteering.id);
 
@@ -28,22 +33,15 @@ export const postVolunteering = async (req, res, next) => {
 
 export const getAllUserVolunteering = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const userSessionId = req.session.user.id;
 
-    const getAllVolunteering = await VolunteeringModel.find({ user: userId });
+    const getAllVolunteering = await VolunteeringModel.find({
+      user: userSessionId,
+    });
     if (getAllVolunteering.length == 0) {
       return res.status(404).send("No volunteering added");
     }
     res.status(200).json({ volunteering: getAllVolunteering });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getOneVolunteering = async (req, res, next) => {
-  try {
-    const singleVolunteering = await VolunteeringModel.findById(req.params.id);
-    res.status(200).json(singleVolunteering);
   } catch (error) {
     next(error);
   }
