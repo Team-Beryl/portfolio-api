@@ -9,12 +9,16 @@ export const postUserProfile = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const user = await UserModel.findById(req.session.user.id);
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
-    const newProfile = await UserProfileModel.create(value);
+    const newProfile = await UserProfileModel.create({
+      ...value,
+      user: userSessionId,
+    });
 
     user.userProfile = newProfile.id;
 
@@ -28,21 +32,12 @@ export const postUserProfile = async (req, res, next) => {
 
 export const getAllUserProfile = async (req, res, next) => {
   try {
-    const userId = req.params.id;
-    const allUserProfile = await UserProfileModel.find({ user: userId });
+    const userSessionId = req.session.user.id;
+    const allUserProfile = await UserProfileModel.find({ user: userSessionId });
     if (allUserProfile.length == 0) {
       return res.status(404).send("No User Profile added");
     }
-    res.status(200).json({ userProfiles: allUserProfile });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getAUserProfile = async (req, res, next) => {
-  try {
-    const singleUserProfile = await UserProfileModel.findById(req.params.id);
-    res.status(200).json(singleUserProfile);
+    res.status(200).json({ userProfile: allUserProfile });
   } catch (error) {
     next(error);
   }

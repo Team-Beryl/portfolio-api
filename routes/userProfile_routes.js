@@ -2,26 +2,33 @@ import { Router } from "express";
 import {
   deleteUserProfile,
   getAllUserProfile,
-  getAUserProfile,
   patchUserProfile,
   postUserProfile,
 } from "../controllers/userProfile_controller.js";
 import { remoteUpload } from "../middlewares/upload.js";
+import { checkUserSession } from "../middlewares/auth.js";
 
 const userProfileRouter = Router();
 
 userProfileRouter.post(
-  "users/userprofiles",
+  "/users/userprofiles",
+  checkUserSession,
   remoteUpload.single("profilePicture"),
   postUserProfile
 );
 
-userProfileRouter.get("users/userprofiles", getAllUserProfile);
+userProfileRouter.get("/users/userprofiles", getAllUserProfile);
 
-userProfileRouter.get("users/userprofiles/:id", getAUserProfile);
+userProfileRouter.patch(
+  "/users/userprofiles/:id",
+  checkUserSession,
+  patchUserProfile
+);
 
-userProfileRouter.patch("users/userprofiles/:id", patchUserProfile);
-
-userProfileRouter.delete("users/userprofiles/:id", deleteUserProfile);
+userProfileRouter.delete(
+  "/users/userprofiles/:id",
+  checkUserSession,
+  deleteUserProfile
+);
 
 export default userProfileRouter;
