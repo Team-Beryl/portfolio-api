@@ -9,15 +9,23 @@ export const postProject = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const newProject = await ProjectsModel.create(value);
-
-    const user = await UserModel.findById(value.user);
+    // Find user with the id you passed when creating project
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
+    // Create project with value
+    const newProject = await ProjectsModel.create({
+      ...value,
+      user: userSessionId,
+    });
+
+    // push projects id into user
     user.projects.push(newProject.id);
 
+    // save user with projects id
     await user.save();
 
     res.status(201).json({ newProject });
@@ -28,22 +36,13 @@ export const postProject = async (req, res, next) => {
 
 export const getAllUserProjects = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const userSessionId = req.session.user.id;
 
-    const getAllProjects = await ProjectsModel.find({ user: userId });
+    const getAllProjects = await ProjectsModel.find({ user: userSessionId });
     if (getAllProjects.length == 0) {
       return res.status(404).send("No projects added");
     }
     res.status(200).json({ projects: getAllProjects });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getOneProject = async (req, res, next) => {
-  try {
-    const singleProject = await ProjectsModel.findById(req.params.id);
-    res.status(200).json(singleProject);
   } catch (error) {
     next(error);
   }
