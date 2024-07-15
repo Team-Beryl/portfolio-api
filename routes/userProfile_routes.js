@@ -11,23 +11,23 @@ import { checkUserSession } from "../middlewares/auth.js";
 const userProfileRouter = Router();
 
 userProfileRouter.post(
-  "/users/userprofiles",
+  "/users/userProfile",
   checkUserSession,
   remoteUpload.single("profilePicture"),
   postUserProfile
 );
 
 
-userProfileRouter.get("/users/userprofiles", getAllUserProfile);
+userProfileRouter.get("/users/userProfile", getAllUserProfile);
 
 userProfileRouter.patch(
-  "/users/userprofiles/:id",
+  "/users/userProfile/:id",
   checkUserSession,
   patchUserProfile
 );
 
 userProfileRouter.delete(
-  "/users/userprofiles/:id",
+  "/users/userProfile/:id",
   checkUserSession,
   deleteUserProfile
 );

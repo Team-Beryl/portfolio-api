@@ -9,18 +9,18 @@ import { checkUserSession } from "../middlewares/auth.js";
 
 const experienceRouter = Router();
 
-experienceRouter.post("/users/experience", checkUserSession, postExperience);
+experienceRouter.post("/users/experiences", checkUserSession, postExperience);
 
-experienceRouter.get("/users/experience", getAllUserExperience);
+experienceRouter.get("/users/experiences", getAllUserExperience);
 
 experienceRouter.patch(
-  "/users/experience/:id",
+  "/users/experiences/:id",
   checkUserSession,
   updateExperience
 );
 
 experienceRouter.delete(
-  "/users/experience/:id",
+  "/users/experiences/:id",
   checkUserSession,
   deleteExperience
 );
