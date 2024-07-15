@@ -49,12 +49,26 @@ export const getAllUserVolunteering = async (req, res, next) => {
 
 export const updateVolunteering = async (req, res, next) => {
   try {
+    const { error, value } = volunteringSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
+
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
     const updatedVolunteering = await VolunteeringModel.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    res.status(200).send(updatedVolunteering);
+    if (!updatedVolunteering) {
+      return res.status(404).send("Volunteering not found");
+    }
+    res.status(201).json({ updatedVolunteering });
   } catch (error) {
     next(error);
   }
@@ -62,8 +76,22 @@ export const updateVolunteering = async (req, res, next) => {
 
 export const deleteVolunteering = async (req, res, next) => {
   try {
-    await VolunteeringModel.findByIdAndDelete(req.params.id);
-    res.status(201).send("Volunteering removed");
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const deletedVolunteering = await VolunteeringModel.findByIdAndDelete(
+      req.params.id
+    );
+    if (!deletedVolunteering) {
+      return res.status(404).send("Volunteering not found");
+    }
+
+    user.volunteering.pull(req.params.id);
+    await user.save();
+    res.status(200).send("Volunteering removed");
   } catch (error) {
     next(error);
   }
