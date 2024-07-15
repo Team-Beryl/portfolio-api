@@ -1,5 +1,6 @@
 import express from "express";
 import { dbConnection } from "./config/db.js";
+import experienceRouter from "./routes/experience_route.js";
 import educationRouter from "./routes/education_routes.js";
 import projectsRouter from "./routes/projects_route.js";
 import { achievementRouter } from "./routes/achievements_route.js";
@@ -47,6 +48,9 @@ app.use("/api/v1", projectsRouter);
 
 // routes
 app.use("/api/v1", educationRouter);
+
+app.use("/api/v1", experienceRouter);
+
 
 const PORT = 4000;
 app.listen(PORT, () => {
