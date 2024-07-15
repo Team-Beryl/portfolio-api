@@ -1,5 +1,6 @@
 import express from "express";
 import { dbConnection } from "./config/db.js";
+import { achievementRouter } from "./routes/achievements_route.js";
 import { skillsRouter } from "./routes/skills_route.js";
 import { userRouter } from "./routes/user_route.js";
 import userProfileRouter from "./routes/userProfile_routes.js";
@@ -21,6 +22,7 @@ expressOasGenerator.handleResponses(app, {
 dbConnection();
 app.use(cors());
 app.use(express.json());
+app.use('/api/v1', achievementRouter);
 app.use('/api/v1', skillsRouter);
 app.use(session({
     secret: process.env.SESSION_SECRET,
