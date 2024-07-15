@@ -1,5 +1,6 @@
 import express from "express";
 import { dbConnection } from "./config/db.js";
+import projectsRouter from "./routes/projects_route.js";
 import { achievementRouter } from "./routes/achievements_route.js";
 import { skillsRouter } from "./routes/skills_route.js";
 import { userRouter } from "./routes/user_route.js";
@@ -39,6 +40,9 @@ app.use(userProfileRouter);
 
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
+
+app.use("/api/v1", projectsRouter);
+
 
 const PORT = 4000;
 app.listen(PORT, () => {
