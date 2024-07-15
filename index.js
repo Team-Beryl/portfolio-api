@@ -1,5 +1,6 @@
 import express from "express";
 import { dbConnection } from "./config/db.js";
+import volunteeringRouter from "./routes/volunteering_route.js";
 import experienceRouter from "./routes/experience_route.js";
 import educationRouter from "./routes/education_routes.js";
 import projectsRouter from "./routes/projects_route.js";
@@ -51,6 +52,8 @@ app.use("/api/v1", educationRouter);
 
 app.use("/api/v1", experienceRouter);
 
+
+app.use("/api/v1", volunteeringRouter);
 
 const PORT = 4000;
 app.listen(PORT, () => {
