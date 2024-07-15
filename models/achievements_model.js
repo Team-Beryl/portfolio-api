@@ -15,4 +15,6 @@ const achievementsSchema = new Schema({
 
 achievementsSchema.plugin(toJSON)
 
-export const AchievementsModel = model('Achievements', achievementsSchema)
+
+export const AchievementsModel = model('Achievement', achievementsSchema)
+
