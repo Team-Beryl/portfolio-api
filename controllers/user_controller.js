@@ -65,40 +65,41 @@ export const login = async (req, res, next) => {
 
 
 export const getUser = async (req, res, next) => {
-    try {
-      const username = req.params.username.toLowerCase();
-  
-    const options = { sort: { startDate: -1 } }
-    const userDetails = await UserModel.findOne({ username })
-      .populate({
-        path: "education",
-        options,
-      })
-      .populate("userProfile")
-      .populate("skills")
-  
-      .populate({
-        path: "achievements",
-        options: { sort: { date: -1 } }, 
-      })
-      .populate({
-        path: "experiences",
-        options, 
-      })
-      .populate({
-        path: "volunteering",
-        options, 
-      })
-      .populate({
-          path: 'projects',
-          options 
-      });
-  
-    return res.status(200).json({ user: userDetails });
-    } catch (error) {
-      next()
-    }
-  };
+  try {
+    const username = req.params.username.toLowerCase();
+
+  const options = { sort: { startDate: -1 } }
+  const userDetails = await UserModel.findOne({ username }).select("-password")
+    .populate({
+      path: "education",
+      options,
+    })
+    .populate("userProfile")
+    .populate("skills")
+
+    .populate({
+      path: "achievements",
+      options: { sort: { date: -1 } }, 
+    })
+    .populate({
+      path: "experiences",
+      options, 
+    })
+    .populate({
+      path: "volunteering",
+      options, 
+    })
+    .populate({
+        path: 'projects',
+        options 
+    });
+
+  return res.status(200).json({ user: userDetails });
+  } catch (error) {
+  //  next()
+  console.log(error)
+  }
+};
   
   export const getUsers = async (req, res) => {
    

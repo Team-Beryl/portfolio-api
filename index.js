@@ -13,6 +13,7 @@ import { achievementRouter } from "./routes/achievements_route.js";
 import { skillsRouter } from "./routes/skills_route.js";
 import { userRouter } from "./routes/user_route.js";
 import userProfileRouter from "./routes/userProfile_routes.js";
+import { restartServer } from "./restart_server.js";
 
 
 const app = express();
@@ -22,12 +23,9 @@ expressOasGenerator.handleResponses(app, {
     tags: ['auth','achievements', 'education', 'experiences', 'projects', 'skills', 'volunteering', 'userProfile'],
     mongooseModels: mongoose.modelNames(),
 });
-
-
-
-
-app.use(cors());
+const PORT = process.env.PORT || 4000;
 app.use(express.json());
+app.use(cors({credentials: true, origin: 'http://localhost:4000'}));
 app.use(session({
     secret: process.env.SESSION_SECRET,
       resave: false,
@@ -37,6 +35,11 @@ app.use(session({
         mongoUrl: process.env.MONGO_URL
      })
 }));
+
+app.get("/api/v1/health", (req, res) => {
+  res.json({ status: "UP" });
+});
+
 app.use('/api/v1', userRouter)
 app.use('/api/v1', userProfileRouter);
 app.use("/api/v1", projectsRouter);
@@ -49,10 +52,20 @@ app.use('/api/v1', skillsRouter);
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
 
-dbConnection();
-
-
-const PORT = 4000;
-app.listen(PORT, () => {
-  console.log(`Portfolio API is Live at port ${PORT}`);
-});
+const reboot = async () => {
+  setInterval(restartServer, process.env.INTERVAL)
+  }
+  
+  dbConnection()
+    .then(() => {
+      app.listen(PORT, () => {
+          reboot().then(() => {
+          console.log(`Server Restarted`);
+        });
+        console.log(`Server is connected to Port ${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      process.exit(-1);
+    });

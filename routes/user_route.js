@@ -12,5 +12,5 @@ userRouter.post('/users/logout', checkUserSession, logout)
 
 userRouter.get('/users', checkUserSession, getUsers);
 
-userRouter.get('/users/auth/:username', checkUserSession, getUser);
+userRouter.get('/users/auth/:username', getUser);
 
