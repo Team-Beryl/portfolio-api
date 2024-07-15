@@ -88,7 +88,7 @@ export const deleteExperience = async (req, res, next) => {
     const deletedExperience = await ExperienceModel.findByIdAndDelete(
       req.params.id
     );
-    if (!deleteExperience) {
+    if (!deletedExperience) {
       return res.status(404).send("Experience not found");
     }
 
