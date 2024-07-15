@@ -51,12 +51,26 @@ export const getAllUserEducation = async (req, res, next) => {
 
 export const updateEducation = async (req, res, next) => {
   try {
+    const { error, value } = experienceSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
+
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
     const updatedEducation = await EducationModel.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    res.status(200).send(updatedEducation);
+    if (!updateEducation) {
+      return res.status(404).send("Profile not found");
+    }
+    res.status(201).json({ updatedEducation });
   } catch (error) {
     next(error);
   }
@@ -64,10 +78,22 @@ export const updateEducation = async (req, res, next) => {
 
 export const deleteEducation = async (req, res, next) => {
   try {
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
     const deletedEducation = await EducationModel.findByIdAndDelete(
       req.params.id
     );
-    res.status(201).send("Education removed");
+    if (!deletedEducation) {
+      return res.status(404).send("Education not found");
+    }
+
+    user.education.pull(req.params.id);
+    await user.save();
+    res.status(200).send("Education removed");
   } catch (error) {
     next(error);
   }
