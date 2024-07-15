@@ -107,8 +107,7 @@ export const updateUserAchievement = async (req, res, next) => {
     }
   };
 
-import { achievementsModel } from "../models/achievements_model.js";
-import { achievementsSchema } from "../schema/achievement_schema.js";
+
 
 
 //Function to post a new achievement
