@@ -29,14 +29,16 @@ export const userProfileSchema = Joi.object({
     languages: Joi.string(),
     gitHubLink: Joi.string(),
     linkedInLink: Joi.string(),
-    twitterLink: Joi.string
+    twitterLink: Joi.string(),
+    user: Joi.string()
 }
 )
 
 export const skillsSchema = Joi.object(
     {
         name: Joi.string(),
-        levelOfProficiency: Joi.string().valid('beginner', 'intermediate', 'advanced', 'expert')
+        levelOfProficiency: Joi.string().valid('beginner', 'intermediate', 'advanced', 'expert'),
+        user: Joi.string()
     }
 )
 
@@ -49,7 +51,8 @@ export const projectsSchema = Joi.object(
         link: Joi.string(),
         nameOfInstitution: Joi.string(),
         startDate: Joi.string().required(),
-        endDate: Joi.string()
+        endDate: Joi.string(),
+        user: Joi.string()
     }
 )
 
@@ -61,7 +64,8 @@ export const experienceSchema = Joi.object(
         location: Joi.string(),
         startDate: Joi.string().required(),
         endDate: Joi.string(),
-        skills: Joi.string()
+        skills: Joi.string(),
+        user: Joi.string()
     }
 )
 
@@ -73,7 +77,8 @@ export const educationSchema = Joi.object(
         grade: Joi.string(),
         location: Joi.string(),
         startDate: Joi.string().required(),
-        endDate: Joi.string()
+        endDate: Joi.string(),
+        user: Joi.string()
 
     }
 )
@@ -84,7 +89,8 @@ export const achievementsSchema = Joi.object(
         description: Joi.string(),
         image: Joi.string(),
         date: Joi.string(),
-        nameOfInstitution: Joi.string()
+        nameOfInstitution: Joi.string(),
+        user: Joi.string()
     }
 
 )
@@ -100,6 +106,7 @@ export const volunteringSchema = Joi.object(
         role: Joi.string(),
         responsibility: Joi.string(),
         projectName: Joi.string(),
+        user: Joi.string()
     }
     
 )

@@ -11,7 +11,7 @@ const userSchema = new Schema({
     email: { type: String, unique: true },
     password: { type: String },
     termsAndConditions: { type: Boolean },
-    userProfile: [{ type: Types.ObjectId, ref: 'UserProfile' }],
+    userProfile: { type: Types.ObjectId, ref: 'UserProfile' },
     education: [{ type: Types.ObjectId, ref: 'Education' }],
     skills: [{ type: Types.ObjectId, ref: 'Skill' }],
     experiences: [{ type: Types.ObjectId, ref: 'Experience' }],
