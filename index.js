@@ -19,7 +19,7 @@ const app = express();
 
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
-    tags: ['auth','achievements', 'education', 'experiences', 'projects', 'skills', 'volunteering'],
+    tags: ['auth','achievements', 'education', 'experiences', 'projects', 'skills', 'volunteering', 'userProfile'],
     mongooseModels: mongoose.modelNames(),
 });
 
