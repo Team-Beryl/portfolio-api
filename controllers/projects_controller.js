@@ -50,12 +50,26 @@ export const getAllUserProjects = async (req, res, next) => {
 
 export const updateProject = async (req, res, next) => {
   try {
+    const { error, value } = projectsSchema.validate(req.body);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
+
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
     const updatedProject = await ProjectsModel.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    res.status(200).send(updatedProject);
+    if (!updateProject) {
+      return res.status(404).send("Project not found");
+    }
+    res.status(201).json({ updatedProject });
   } catch (error) {
     next(error);
   }
@@ -63,8 +77,20 @@ export const updateProject = async (req, res, next) => {
 
 export const deleteProject = async (req, res, next) => {
   try {
-    await ProjectsModel.findByIdAndDelete(req.params.id);
-    res.status(201).send("Project removed");
+    const userSessionId = req.session.user.id;
+    const user = await UserModel.findById(userSessionId);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const deletedProject = await ProjectsModel.findByIdAndDelete(req.params.id);
+    if (!deletedProject) {
+      return res.status(404).send("Project not found");
+    }
+
+    user.projects.pull(req.params.id);
+    await user.save();
+    res.status(200).send("Project removed");
   } catch (error) {
     next(error);
   }
