@@ -69,7 +69,7 @@ export const updateExperience = async (req, res, next) => {
       { new: true }
     );
     if (!updateExperience) {
-      return res.status(404).send("Profile not found");
+      return res.status(404).send("Experience not found");
     }
     res.status(201).json({ updatedExperience });
   } catch (error) {
