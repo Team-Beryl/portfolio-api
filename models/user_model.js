@@ -22,19 +22,7 @@ const userSchema = new Schema(
     timestamps: true,
   }
 );
-    userProfile: { type: Types.ObjectId, ref: 'UserProfile' },
-    education: [{ type: Types.ObjectId, ref: 'Education' }],
-    skills: [{ type: Types.ObjectId, ref: 'Skill' }],
-    experiences: [{ type: Types.ObjectId, ref: 'Experience' }],
-    projects: [{ type: Types.ObjectId, ref: 'Project' }],
-    achievements: [{ type: Types.ObjectId, ref: 'Achievement' }],
-    volunteering: [{ type: Types.ObjectId, ref: 'Volunteering' }],
-  
-
-}, {
-    timestamps:true
-})
-
+    
 
 userSchema.plugin(toJSON);
 
