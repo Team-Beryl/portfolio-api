@@ -19,7 +19,6 @@ userProfileRouter.post(
 
 
 userProfileRouter.get("/users/userprofiles", getAllUserProfile);
- userProfileRouter.get("/api/v1/users/userprofiles", getAllUserProfile);
 
 userProfileRouter.patch(
   "/users/userprofiles/:id",
