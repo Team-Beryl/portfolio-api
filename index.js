@@ -11,7 +11,6 @@ import expressOasGenerator from "express-oas-generator";
 import mongoose from "mongoose";
 
 
-
 const app = express();
 expressOasGenerator.handleResponses(app, {
     alwaysServeDocs: true,
@@ -22,6 +21,8 @@ expressOasGenerator.handleResponses(app, {
 dbConnection();
 app.use(cors());
 app.use(express.json());
+app.use("/api/v1", userRouter);
+app.use("/api/v1", userProfileRouter);
 app.use('/api/v1', achievementRouter);
 app.use('/api/v1', skillsRouter);
 app.use(session({
@@ -39,8 +40,7 @@ app.use(userProfileRouter);
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect('/api-docs/'));
 
-
-const PORT = 4000
+const PORT = 4000;
 app.listen(PORT, () => {
-    console.log(`Portfolio API is Live at port ${PORT}`)
+  console.log(`Portfolio API is Live at port ${PORT}`);
 });
