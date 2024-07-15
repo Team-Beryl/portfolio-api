@@ -13,10 +13,9 @@ const userProfileRouter = Router();
 userProfileRouter.post(
   "/users/userProfile",
   checkUserSession,
-  remoteUpload.single("profilePicture"),
+  remoteUpload.fields([{ name: "profilePicture", maxCount: 1 }]),
   postUserProfile
 );
-
 
 userProfileRouter.get("/users/userProfile", getAllUserProfile);
 
