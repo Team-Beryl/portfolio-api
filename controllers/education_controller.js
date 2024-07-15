@@ -51,7 +51,7 @@ export const getAllUserEducation = async (req, res, next) => {
 
 export const updateEducation = async (req, res, next) => {
   try {
-    const { error, value } = experienceSchema.validate(req.body);
+    const { error, value } = educationSchema.validate(req.body);
     if (error) {
       return res.status(400).send(error.details[0].message);
     }
@@ -68,7 +68,7 @@ export const updateEducation = async (req, res, next) => {
       { new: true }
     );
     if (!updateEducation) {
-      return res.status(404).send("Profile not found");
+      return res.status(404).send("Education not found");
     }
     res.status(201).json({ updatedEducation });
   } catch (error) {
