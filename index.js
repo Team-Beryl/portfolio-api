@@ -17,11 +17,11 @@ import userProfileRouter from "./routes/userProfile_routes.js";
 
 const app = express();
 
-// expressOasGenerator.handleResponses(app, {
-//     alwaysServeDocs: true,
-//     tags: ['auth','achievements', 'education', 'experiences', 'projects', 'skills', 'volunteering'],
-//     mongooseModels: mongoose.modelNames(),
-// });
+expressOasGenerator.handleResponses(app, {
+    alwaysServeDocs: true,
+    tags: ['auth','achievements', 'education', 'experiences', 'projects', 'skills', 'volunteering'],
+    mongooseModels: mongoose.modelNames(),
+});
 
 
 
@@ -46,8 +46,8 @@ app.use("/api/v1", experienceRouter);
 app.use('/api/v1', achievementRouter);
 app.use('/api/v1', skillsRouter);
 
-// expressOasGenerator.handleRequests();
-// app.use((req, res) => res.redirect('/api-docs/'));
+expressOasGenerator.handleRequests();
+app.use((req, res) => res.redirect('/api-docs/'));
 
 dbConnection();
 
