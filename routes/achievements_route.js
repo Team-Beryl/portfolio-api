@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { addAchievement, deleteAchievement, getAllUserAchievements, updateOneAchievement } from "../controllers/achievements_controller.js";
+import {createUserAchievement, deleteUserAchievement, getAllUserAchievements, updateUserAchievement } from "../controllers/achievements_controller.js";
 import { checkUserSession } from "../middlewares/auth.js";
 
 export const achievementRouter = Router();
 
-achievementRouter.post('/users/achievements', checkUserSession, addAchievement);
+achievementRouter.post('/users/achievement', checkUserSession, createUserAchievement)
 
-achievementRouter.get('/users/achievements/:userId/:achievementId', checkUserSession,  getAllUserAchievements);
+achievementRouter.get('/users/achievement', checkUserSession, getAllUserAchievements)
 
-achievementRouter.patch('/users/achievements/:userId/:achievementId', checkUserSession, updateOneAchievement);
+achievementRouter.patch('/users/achievement/:id', checkUserSession, updateUserAchievement)
 
-achievementRouter.delete('/users/achievements/:userId/:achievementId', checkUserSession, deleteAchievement)
+achievementRouter.delete('/users/achievement/:id', checkUserSession, deleteUserAchievement)
 
 
 
