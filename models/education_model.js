@@ -20,3 +20,4 @@ const educationSchema = new Schema(
 educationSchema.plugin(toJSON);
 
 export const EducationModel = model("Education", educationSchema);
+
