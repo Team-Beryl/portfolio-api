@@ -9,18 +9,18 @@ import { checkUserSession } from "../middlewares/auth.js";
 
 const volunteeringRouter = Router();
 
-volunteeringRouter.post("/volunteering", checkUserSession, postVolunteering);
+volunteeringRouter.post("/users/volunteering", checkUserSession, postVolunteering);
 
-volunteeringRouter.get("/volunteering", getAllUserVolunteering);
+volunteeringRouter.get("/users/volunteering", getAllUserVolunteering);
 
 volunteeringRouter.patch(
-  "/volunteering/:id",
+  "/users/volunteering/:id",
   checkUserSession,
   updateVolunteering
 );
 
 volunteeringRouter.delete(
-  "/volunteering/:id",
+  "/users/volunteering/:id",
   checkUserSession,
   deleteVolunteering
 );

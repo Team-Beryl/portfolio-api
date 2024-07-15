@@ -23,7 +23,7 @@ export const postExperience = async (req, res, next) => {
     });
 
     // push experience id to user
-    user.experience.push(newExperience.id);
+    user.experiences.push(newExperience.id);
 
     // save user with experience id
     await user.save();
