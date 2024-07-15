@@ -89,19 +89,21 @@ export const getUser = async (req, res, next) => {
   };
 
   
-  export const allUsers = async (req, res, next)=>{
-    try {
-        //Get query params
-        const {
-        filter = "{}", 
-        sort = "{}",     
-    } = req.query;
-        const users = await UserModel
-        .find(JSON.parse(filter))
-        .sort(JSON.parse.sort)
-        .select({password: false})
-        res.status(200).send(users)
-    } catch (error) {
-        next(error)
+  export const getUsers = async (req, res, next) => {
+
+
+    const { email, userName } = req.query;
+
+    const filter = {};
+    if (email) {
+        filter.email = email;
     }
-} 
+    if (userName) {
+        filter.userName = userName;
+    }
+
+    const users = await UserModel.find(filter);
+
+   return res.status(200).json({users})
+
+}
