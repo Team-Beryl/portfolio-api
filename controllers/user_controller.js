@@ -23,6 +23,7 @@ if(findIfUserExist){
     console.log('val', value)
 
    const addUser = await UserModel.create(value)
+    req.session.user = { id: addUser.id }
     return res.status(201).send('User registered successfully')
 }
 
@@ -47,8 +48,9 @@ export const login = async (req, res, next) => {
         res.status(401).json('Invalid credentials')
     }else{
     //Generate a session
-    // req.session.user = {id: user.id} 
-    //Return response
+    req.session.user = {id: user.id} 
+    console.log('user', req.session.user)
+   // Return response
     res.status(200).json('Login successful')
 
     }
@@ -58,16 +60,6 @@ export const login = async (req, res, next) => {
        next(error) 
     }
    
-}
-
-export const allUsers = async (req, res, next)=>{
-    try {
-        const users = await UserModel.find()
-        .select({password: false})
-        res.status(200).send(users)
-    } catch (error) {
-        next(error)
-    }
 }
 
 export const logout = async (req, res, next) => {
@@ -81,42 +73,37 @@ export const logout = async (req, res, next) => {
     }
 }
 
-export const profile = async (req, res, next) => {
-   try {
-     //Find user by id
-     const user = await UserModel
-     .findById(req.session.user.id) 
-     .select({password:false})
-     //Return response
-     res.status(200).json(user)
-   } catch (error) {
-    next(error)
-   }
-}
-
-
 export const getUser = async (req, res, next) => {
     try {
-      const userId = req.params.id;
-  
+        const username = req.params.username
       // Get user based on the user id
-      // Use the select to exclude the password
-      // Use populate to populate the related fields
-      const userDetails = await UserModel.findById(userId)
+      const userDetails = await UserModel.find({username})
         .select({ password: false })
-        // .populate([
-        //   { path: 'education' },
-        //   { path: 'achievements' },
-        //   { path: 'experience' },
-        //   { path: 'projects' },
-        //   { path: 'userProfile' },
-        //   { path: 'volunteering' },
-        //   { path: 'skills' } 
-        // ]);
+        .populate('userProfile')
+        
   
-      return res.status(200).json({ user: userDetails });
+        return res.status(201).json({user: userDetails})
     } catch (error) {
       next(error);
     }
   };
+
   
+  export const getUsers = async (req, res, next) => {
+
+
+    const { email, userName } = req.query;
+
+    const filter = {};
+    if (email) {
+        filter.email = email;
+    }
+    if (userName) {
+        filter.userName = userName;
+    }
+
+    const users = await UserModel.find(filter);
+
+   return res.status(200).json({users})
+
+}

@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   deleteUserProfile,
   getAUserProfile,
-  getUserProfile,
+  getAllUserProfile,
   patchUserProfile,
   postUserProfile,
 } from "../controllers/userProfile_controller.js";
@@ -16,7 +16,7 @@ userProfileRouter.post(
   postUserProfile
 );
 
-userProfileRouter.get("/api/v1/users/userprofiles", getUserProfile);
+ userProfileRouter.get("/api/v1/users/userprofiles", getAllUserProfile);
 
 userProfileRouter.get("/api/v1/users/userprofiles/:id", getAUserProfile);
 
