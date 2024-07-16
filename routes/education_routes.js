@@ -5,26 +5,26 @@ import {
   postEducation,
   updateEducation,
 } from "../controllers/education_controller.js";
-import { checkUserSession } from "../middlewares/auth.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 // Create Router
 const educationRouter = Router();
 
 // Define routes
 
-educationRouter.post("/users/education", checkUserSession, postEducation);
+educationRouter.post("/users/education", isAuthenticated, postEducation);
 
 educationRouter.get("/users/education", getAllUserEducation);
 
 educationRouter.patch(
   "/users/education/:id",
-  checkUserSession,
+  isAuthenticated,
   updateEducation
 );
 
 educationRouter.delete(
   "/users/education/:id",
-  checkUserSession,
+  isAuthenticated,
   deleteEducation
 );
 

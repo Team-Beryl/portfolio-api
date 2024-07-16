@@ -10,8 +10,8 @@ export const postProject = async (req, res, next) => {
     }
 
     // Find user with the id you passed when creating project
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -19,7 +19,7 @@ export const postProject = async (req, res, next) => {
     // Create project with value
     const newProject = await ProjectsModel.create({
       ...value,
-      user: userSessionId,
+      user: id,
     });
 
     // push projects id into user
@@ -36,9 +36,9 @@ export const postProject = async (req, res, next) => {
 
 export const getAllUserProjects = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
+    const id = req.session?.user?.id || req?.user?.id;
 
-    const getAllProjects = await ProjectsModel.find({ user: userSessionId });
+    const getAllProjects = await ProjectsModel.find({ user: id });
     if (getAllProjects.length == 0) {
       return res.status(404).send("No projects added");
     }
@@ -55,8 +55,8 @@ export const updateProject = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -77,8 +77,8 @@ export const updateProject = async (req, res, next) => {
 
 export const deleteProject = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }

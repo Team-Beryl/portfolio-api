@@ -11,9 +11,10 @@ export const postUserProfile = async (req, res, next) => {
     if (error) {
       return res.status(400).send(error.details[0].message);
     }
+    //Get user id from session or request
 
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -35,8 +36,8 @@ export const postUserProfile = async (req, res, next) => {
 
 export const getAllUserProfile = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
-    const allUserProfile = await UserProfileModel.find({ user: userSessionId });
+    const id = req.session?.user?.id || req?.user?.id;
+    const allUserProfile = await UserProfileModel.find({ user: id });
     if (allUserProfile.length == 0) {
       return res.status(404).send("No User Profile added");
     }
@@ -56,8 +57,8 @@ export const patchUserProfile = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -79,8 +80,8 @@ export const patchUserProfile = async (req, res, next) => {
 
 export const deleteUserProfile = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
