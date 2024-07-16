@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {createUserAchievement, deleteUserAchievement, getAllUserAchievements, updateUserAchievement } from "../controllers/achievements_controller.js";
 import { checkUserSession } from "../middlewares/auth.js";
+import { remoteUpload } from "../middlewares/upload.js";
 
 export const achievementRouter = Router();
 
@@ -12,5 +13,5 @@ achievementRouter.patch('/users/achievements/:id', checkUserSession, updateUserA
 
 achievementRouter.delete('/users/achievements/:id', checkUserSession, deleteUserAchievement)
 
-
+//remoteUpload.single('image'),
 
