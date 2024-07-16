@@ -6,13 +6,13 @@ import {
   postUserProfile,
 } from "../controllers/userProfile_controller.js";
 import { remoteUpload } from "../middlewares/upload.js";
-import { checkUserSession } from "../middlewares/auth.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const userProfileRouter = Router();
 
 userProfileRouter.post(
   "/users/userProfile",
-  checkUserSession,
+  isAuthenticated,
   remoteUpload.fields([{ name: "profilePicture", maxCount: 1 }]),
   postUserProfile
 );
@@ -21,13 +21,13 @@ userProfileRouter.get("/users/userProfile", getAllUserProfile);
 
 userProfileRouter.patch(
   "/users/userProfile/:id",
-  checkUserSession,
+  isAuthenticated,
   patchUserProfile
 );
 
 userProfileRouter.delete(
   "/users/userProfile/:id",
-  checkUserSession,
+  isAuthenticated,
   deleteUserProfile
 );
 

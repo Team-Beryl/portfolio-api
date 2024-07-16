@@ -2,6 +2,7 @@ import { UserModel } from "../models/user_model.js";
 import { userSchema } from "../schema/user_schema.js";
 import * as bcrypt from 'bcrypt';
 import { skillsSchema } from "../schema/skills_schema.js";
+import jwt from "jsonwebtoken";
 
 
 export const signup = async(req, res) =>{ 
@@ -63,7 +64,46 @@ export const login = async (req, res, next) => {
 }
 
 
+export const token = async (req, res, next) => {
+  try {
+      const {email, username, password} = req.body
+  //Find a user using their unique identifier
+  const user = await UserModel.findOne({
+     $or:[
+      { email:email},
+      {username: username}
+     ]
+  });
+  if (!user){
+      res.status(401).json('No user found')
+  }else{
+  //Verify their password
+  const correctPassword = bcrypt.compareSync(password, user.password)
+  if(!correctPassword){
+      res.status(401).json('Invalid credentials')
+  }else{
+  //Generate a token
+  const token = jwt.sign(
+    {id: user.id}, 
+    process.env.JWT_PRIVATE_KEY,
+    {expiresIn: '3h'}
+  );
+  // req.session.user = {id: user.id} 
+  // console.log('user', req.session.user)
+ // Return response
+  res.status(200).json({
+    message: 'Login successful',
+    accessToken: token
+  })
 
+  }
+
+  }
+  } catch (error) {
+     next(error) 
+  }
+ 
+}
 export const getUser = async (req, res, next) => {
   try {
     const username = req.params.username.toLowerCase();
@@ -100,6 +140,8 @@ export const getUser = async (req, res, next) => {
   console.log(error)
   }
 };
+
+
   
   export const getUsers = async (req, res) => {
    

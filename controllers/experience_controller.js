@@ -10,8 +10,8 @@ export const postExperience = async (req, res, next) => {
     }
 
     // Find user with the id you passed when creating experience
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -19,7 +19,7 @@ export const postExperience = async (req, res, next) => {
     // Create experience
     const newExperience = await ExperienceModel.create({
       ...value,
-      user: userSessionId,
+      user: id,
     });
 
     // push experience id to user
@@ -36,10 +36,10 @@ export const postExperience = async (req, res, next) => {
 
 export const getAllUserExperience = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
+    const id = req.session?.user?.id || req?.user?.id;
 
     const getAllExperience = await ExperienceModel.find({
-      user: userSessionId,
+      user: id,
     });
     if (getAllExperience.length == 0) {
       return res.status(404).send("No experience added");
@@ -57,8 +57,8 @@ export const updateExperience = async (req, res, next) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -79,8 +79,8 @@ export const updateExperience = async (req, res, next) => {
 
 export const deleteExperience = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -92,7 +92,7 @@ export const deleteExperience = async (req, res, next) => {
       return res.status(404).send("Experience not found");
     }
 
-    user.experience.pull(req.params.id);
+    user.experiences.pull(req.params.id);
     await user.save();
     res.status(200).send("Experience removed");
   } catch (error) {

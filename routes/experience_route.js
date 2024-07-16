@@ -5,23 +5,23 @@ import {
   postExperience,
   updateExperience,
 } from "../controllers/experience_controller.js";
-import { checkUserSession } from "../middlewares/auth.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const experienceRouter = Router();
 
-experienceRouter.post("/users/experiences", checkUserSession, postExperience);
+experienceRouter.post("/users/experiences", isAuthenticated, postExperience);
 
 experienceRouter.get("/users/experiences", getAllUserExperience);
 
 experienceRouter.patch(
   "/users/experiences/:id",
-  checkUserSession,
+  isAuthenticated,
   updateExperience
 );
 
 experienceRouter.delete(
   "/users/experiences/:id",
-  checkUserSession,
+  isAuthenticated,
   deleteExperience
 );
 

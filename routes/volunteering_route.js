@@ -5,23 +5,23 @@ import {
   postVolunteering,
   updateVolunteering,
 } from "../controllers/volunteering_controller.js";
-import { checkUserSession } from "../middlewares/auth.js";
+import {isAuthenticated } from "../middlewares/auth.js";
 
 const volunteeringRouter = Router();
 
-volunteeringRouter.post("/users/volunteering", checkUserSession, postVolunteering);
+volunteeringRouter.post("/users/volunteering", isAuthenticated, postVolunteering);
 
 volunteeringRouter.get("/users/volunteering", getAllUserVolunteering);
 
 volunteeringRouter.patch(
   "/users/volunteering/:id",
-  checkUserSession,
+  isAuthenticated,
   updateVolunteering
 );
 
 volunteeringRouter.delete(
   "/users/volunteering/:id",
-  checkUserSession,
+  isAuthenticated,
   deleteVolunteering
 );
 

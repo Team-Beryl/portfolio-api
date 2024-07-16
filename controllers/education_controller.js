@@ -10,8 +10,8 @@ export const postEducation = async (req, res, next) => {
     }
 
     // Find user with the id you passed when creating education
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -19,7 +19,7 @@ export const postEducation = async (req, res, next) => {
     // Create education with the 'value'
     const newEducation = await EducationModel.create({
       ...value,
-      user: userSessionId,
+      user: id,
     });
 
     // push education id into user
@@ -38,8 +38,8 @@ export const postEducation = async (req, res, next) => {
 export const getAllUserEducation = async (req, res, next) => {
   try {
     // Fetching education that belongs to a particular user
-    const userSessionId = req.session.user.id;
-    const getAllEducation = await EducationModel.find({ user: userSessionId });
+    const id = req.session?.user?.id || req?.user?.id;
+    const getAllEducation = await EducationModel.find({ user: id });
     if (getAllEducation.length == 0) {
       return res.status(404).send("No education added");
     }
@@ -55,9 +55,8 @@ export const updateEducation = async (req, res, next) => {
     if (error) {
       return res.status(400).send(error.details[0].message);
     }
-
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -78,8 +77,8 @@ export const updateEducation = async (req, res, next) => {
 
 export const deleteEducation = async (req, res, next) => {
   try {
-    const userSessionId = req.session.user.id;
-    const user = await UserModel.findById(userSessionId);
+    const id = req.session?.user?.id || req?.user?.id;
+    const user = await UserModel.findById(id);
     if (!user) {
       return res.status(404).send("User not found");
     }

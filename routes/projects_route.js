@@ -5,16 +5,16 @@ import {
   postProject,
   updateProject,
 } from "../controllers/projects_controller.js";
-import { checkUserSession } from "../middlewares/auth.js";
+import { isAuthenticated } from "../middlewares/auth.js";
 
 const projectsRouter = Router();
 
-projectsRouter.post("/users/projects", checkUserSession, postProject);
+projectsRouter.post("/users/projects", isAuthenticated, postProject);
 
 projectsRouter.get("/users/projects", getAllUserProjects);
 
-projectsRouter.patch("/users/projects/:id", checkUserSession, updateProject);
+projectsRouter.patch("/users/projects/:id", isAuthenticated, updateProject);
 
-projectsRouter.delete("/users/projects/:id", checkUserSession, deleteProject);
+projectsRouter.delete("/users/projects/:id", isAuthenticated, deleteProject);
 
 export default projectsRouter;

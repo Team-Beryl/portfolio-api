@@ -1,15 +1,16 @@
 import { Router } from "express";
 import { createUserSkill, deleteUserSkill, getAllUserSkills, updateUserSkill } from "../controllers/skills_controller.js";
-import { checkUserSession } from "../middlewares/auth.js";
+import { isAuthenticated } from "../middlewares/auth.js";
+
 
 export const skillsRouter = Router()
 
-skillsRouter.post('/users/skills', checkUserSession, createUserSkill)
+skillsRouter.post('/users/skills', isAuthenticated, createUserSkill)
 
-skillsRouter.get('/users/skills', checkUserSession, getAllUserSkills)
+skillsRouter.get('/users/skills', getAllUserSkills)
 
-skillsRouter.patch('/users/skills/:id', checkUserSession, updateUserSkill)
+skillsRouter.patch('/users/skills/:id', isAuthenticated, updateUserSkill)
 
-skillsRouter.delete('/users/skills/:id', checkUserSession, deleteUserSkill)
+skillsRouter.delete('/users/skills/:id', isAuthenticated, deleteUserSkill)
 
 
