@@ -62,7 +62,65 @@ export const login = async (req, res, next) => {
    
 }
 
-export const logout = async (req, res, next) => {
+
+
+export const getUser = async (req, res, next) => {
+  try {
+    const username = req.params.username.toLowerCase();
+
+  const options = { sort: { startDate: -1 } }
+  const userDetails = await UserModel.findOne({ username }).select("-password")
+    .populate({
+      path: "education",
+      options,
+    })
+    .populate("userProfile")
+    .populate("skills")
+
+    .populate({
+      path: "achievements",
+      options: { sort: { date: -1 } }, 
+    })
+    .populate({
+      path: "experiences",
+      options, 
+    })
+    .populate({
+      path: "volunteering",
+      options, 
+    })
+    .populate({
+        path: 'projects',
+        options 
+    });
+
+  return res.status(200).json({ user: userDetails });
+  } catch (error) {
+  //  next()
+  console.log(error)
+  }
+};
+  
+  export const getUsers = async (req, res) => {
+   
+  
+    const email = req.query.email?.toLowerCase()
+    const username = req.query.username?.toLowerCase();
+  
+    const filter = {};
+    if (email) {
+      filter.email = email;
+    }
+    if (username) {
+      filter.username = username;
+    }
+  
+    const users = await UserModel.find(filter);
+  
+    return res.status(200).json({ users });
+  };
+  
+  export const logout = async (req, res, next) => {
     try {
         //Destroy user section
         await req.session.destroy();
@@ -71,39 +129,4 @@ export const logout = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-}
-
-export const getUser = async (req, res, next) => {
-    try {
-        const username = req.params.username
-      // Get user based on the user id
-      const userDetails = await UserModel.find({username})
-        .select({ password: false })
-        .populate('userProfile')
-        
-  
-        return res.status(201).json({user: userDetails})
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  
-  export const getUsers = async (req, res, next) => {
-
-
-    const { email, userName } = req.query;
-
-    const filter = {};
-    if (email) {
-        filter.email = email;
-    }
-    if (userName) {
-        filter.userName = userName;
-    }
-
-    const users = await UserModel.find(filter);
-
-   return res.status(200).json({users})
-
 }

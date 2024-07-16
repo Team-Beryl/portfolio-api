@@ -4,12 +4,12 @@ import { checkUserSession } from "../middlewares/auth.js";
 
 export const skillsRouter = Router()
 
-skillsRouter.post('/users/skill', checkUserSession, createUserSkill)
+skillsRouter.post('/users/skills', checkUserSession, createUserSkill)
 
-skillsRouter.get('/users/skill', checkUserSession, getAllUserSkills)
+skillsRouter.get('/users/skills', checkUserSession, getAllUserSkills)
 
-skillsRouter.patch('/users/skill/:id', checkUserSession, updateUserSkill)
+skillsRouter.patch('/users/skills/:id', checkUserSession, updateUserSkill)
 
-skillsRouter.delete('/users/skill/:id', checkUserSession, deleteUserSkill)
+skillsRouter.delete('/users/skills/:id', checkUserSession, deleteUserSkill)
 
 
