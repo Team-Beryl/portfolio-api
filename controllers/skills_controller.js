@@ -98,3 +98,12 @@ export const updateUserSkill = async (req, res) => {
     }
   };
     
+
+  export const getUserSkill = async (req, res, next)=>{
+    try {
+      const aSkill = await SkillsModel.findById(req.params.id)
+      res.status(200).send(aSkill)
+    } catch (error) {
+      next(error)
+    }
+  }

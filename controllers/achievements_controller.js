@@ -102,6 +102,15 @@ export const updateUserAchievement = async (req, res, next) => {
     }
   };
 
+  export const getUserAchievement = async (req, res, next) =>{
+    try {
+     const anAchievement = await AchievementsModel.findById(req.params.id) 
+     res.status(200).send(anAchievement)
+    } catch (error) {
+      next(error)
+    }
+  }
+
 
 
 

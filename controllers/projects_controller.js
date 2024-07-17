@@ -90,8 +90,18 @@ export const deleteProject = async (req, res, next) => {
 
     user.projects.pull(req.params.id);
     await user.save();
-    res.status(200).send("Project removed");
+    res.status(200).send("Project deleted");
   } catch (error) {
     next(error);
   }
 };
+
+
+export const getUserProject = async (req, res, next)=>{
+  try {
+    const oneProject = await ProjectsModel.findById(req.params.id)
+    res.status(200).send(oneProject)
+  } catch (error) {
+    next(error)
+  }
+}
