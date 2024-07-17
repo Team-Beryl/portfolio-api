@@ -94,8 +94,18 @@ export const deleteExperience = async (req, res, next) => {
 
     user.experiences.pull(req.params.id);
     await user.save();
-    res.status(200).send("Experience removed");
+    res.status(200).send("Experience deleted successfully");
   } catch (error) {
     next(error);
   }
 };
+
+
+export const getUserExperience = async (req, res, next)=>{
+  try {
+    const anExperience = await ExperienceModel.findById(req.params.id)
+    res.status(200).send(anExperience)
+  } catch (error) {
+    next(error)
+  }
+}

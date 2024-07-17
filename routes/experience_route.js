@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   deleteExperience,
   getAllUserExperience,
+  getUserExperience,
   postExperience,
   updateExperience,
 } from "../controllers/experience_controller.js";
@@ -12,6 +13,8 @@ const experienceRouter = Router();
 experienceRouter.post("/users/experiences", isAuthenticated, postExperience);
 
 experienceRouter.get("/users/experiences", getAllUserExperience);
+
+experienceRouter.get('/users/experiences/:id', getUserExperience)
 
 experienceRouter.patch(
   "/users/experiences/:id",

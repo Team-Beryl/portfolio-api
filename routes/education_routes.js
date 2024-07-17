@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   deleteEducation,
   getAllUserEducation,
+  getUserEducation,
   postEducation,
   updateEducation,
 } from "../controllers/education_controller.js";
@@ -16,12 +17,14 @@ educationRouter.post("/users/education", isAuthenticated, postEducation);
 
 educationRouter.get("/users/education", getAllUserEducation);
 
-educationRouter.patch(
-  "/users/education/:id",
+educationRouter.get('/users/education/:id', getUserEducation)
+
+educationRouter.patch( "/users/education/:id",
   isAuthenticated,
   updateEducation
 );
 
+ 
 educationRouter.delete(
   "/users/education/:id",
   isAuthenticated,

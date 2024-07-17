@@ -91,8 +91,17 @@ export const deleteVolunteering = async (req, res, next) => {
 
     user.volunteering.pull(req.params.id);
     await user.save();
-    res.status(200).send("Volunteering removed");
+    res.status(200).send("Volunteering deleted");
   } catch (error) {
     next(error);
   }
 };
+
+export const getUserVolunteering = async (req, res, next)=>{
+  try {
+    const oneVolunteering = await VolunteeringModel.findById(req.params.id)
+    res.status(200).send(oneVolunteering)
+  } catch (error) {
+    next(error)
+  }
+}

@@ -92,8 +92,17 @@ export const deleteEducation = async (req, res, next) => {
 
     user.education.pull(req.params.id);
     await user.save();
-    res.status(200).send("Education removed");
+    res.status(200).send("Education deleted successfully");
   } catch (error) {
     next(error);
   }
 };
+
+export const getUserEducation = async (req, res, next)=>{
+ try {
+   const anEducation = await EducationModel.findById(req.params.id)
+   res.status(200).send(anEducation)
+ }
+ catch (error) {
+  next(error)
+ }}
