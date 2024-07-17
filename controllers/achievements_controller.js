@@ -7,7 +7,8 @@ import { achievementsSchema } from "../schema/achievement_schema.js";
 
 export const createUserAchievement = async (req, res, next) => {
   try {
-    const { error, value } = achievementsSchema.validate(req.body)
+    const { error, value } = achievementsSchema.validate({ ...req.body,
+      image: req?.file?.filename})
     if (error) {
       return res.status(400).send(error.details[0].message);
     }
@@ -51,7 +52,9 @@ export const getAllUserAchievements = async (req, res, next) => {
 
 export const updateUserAchievement = async (req, res, next) => {
     try {
-      const { error, value } = achievementsSchema.validate(req.body)
+      const { error, value } = achievementsSchema.validate({  
+        ...req.body,
+        image: req?.file?.filename})
        
       if (error) {
         return res.status(400).send(error.details[0].message);
