@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   deleteUserProfile,
   getAllUserProfile,
+  getAUserProfile,
   patchUserProfile,
   postUserProfile,
 } from "../controllers/userProfile_controller.js";
@@ -18,6 +19,8 @@ userProfileRouter.post(
 );
 
 userProfileRouter.get("/users/userProfile", getAllUserProfile);
+
+userProfileRouter.get('/users/userProfile/:id', getAUserProfile)
 
 userProfileRouter.patch(
   "/users/userProfile/:id",

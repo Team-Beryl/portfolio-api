@@ -10,7 +10,7 @@ userRouter.post('/users/auth/login', login);
 
 userRouter.post('/users/auth/token/login', token)
 
-userRouter.post('/users/logout', isAuthenticated, logout)
+userRouter.post('/users/auth/logout', isAuthenticated, logout)
 
 userRouter.get('/users', isAuthenticated, getUsers);
 

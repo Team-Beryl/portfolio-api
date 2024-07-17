@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   deleteProject,
   getAllUserProjects,
+  getUserProject,
   postProject,
   updateProject,
 } from "../controllers/projects_controller.js";
@@ -12,6 +13,8 @@ const projectsRouter = Router();
 projectsRouter.post("/users/projects", isAuthenticated, postProject);
 
 projectsRouter.get("/users/projects", getAllUserProjects);
+
+projectsRouter.get('/users/projects/:id', getUserProject)
 
 projectsRouter.patch("/users/projects/:id", isAuthenticated, updateProject);
 

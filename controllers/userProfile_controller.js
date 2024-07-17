@@ -21,7 +21,7 @@ export const postUserProfile = async (req, res, next) => {
 
     const newProfile = await UserProfileModel.create({
       ...value,
-      user: userSessionId,
+      user: id,
     });
 
     user.userProfile = newProfile.id;
@@ -100,3 +100,12 @@ export const deleteUserProfile = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAUserProfile = async (req, res, next)=>{
+  try {
+    const aUserProfile = await UserProfileModel.findById(req.params.id)
+    res.status(200).send(aUserProfile)
+  } catch (error) {
+    next(error)
+  }
+}
