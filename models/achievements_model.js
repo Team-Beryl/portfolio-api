@@ -5,6 +5,7 @@ const achievementsSchema = new Schema({
             award: { type: String },
             description: { type: String },
             date: { type: String },
+            image: {type:String},
             nameOfInstitution: { type: String },
             user: {type: Types.ObjectId, ref: 'User'}
         },
