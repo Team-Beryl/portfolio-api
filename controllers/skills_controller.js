@@ -19,10 +19,10 @@ export const createUserSkill = async (req, res) => {
     }
 
     const skillNameLowerCase = value.name.toLowerCase();
-    const skillExists = user.skills.some(skill => skill.name.toLowerCase() === skillNameLowerCase);
+    const skillExists = user.skills.find(skill => skill.name.toLowerCase() === skillNameLowerCase);
 
     if (skillExists) {
-      return res.status(400).send("Skill already exists");
+      return res.status(409).send("Skill already exists");
     }
 
     const skill = await SkillsModel.create({ ...value, user: id });
