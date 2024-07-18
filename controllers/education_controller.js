@@ -28,7 +28,7 @@ export const postEducation = async (req, res, next) => {
     // save user with education id
     await user.save();
 
-    res.status(201).json({ newEducation });
+    res.status(201).json('Education added successfully');
   } catch (error) {
     next(error);
   }
@@ -69,7 +69,7 @@ export const updateEducation = async (req, res, next) => {
     if (!updateEducation) {
       return res.status(404).json({ Education: updatedEducation });
     }
-    res.status(201).json({ updatedEducation });
+    res.status(201).json('Educated updated successfully');
   } catch (error) {
     next(error);
   }

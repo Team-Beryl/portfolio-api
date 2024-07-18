@@ -28,7 +28,7 @@ export const postUserProfile = async (req, res, next) => {
 
     await user.save();
 
-    res.status(201).json({ newProfile });
+    res.status(201).json('User Profile added successfully');
   } catch (error) {
     next(error);
   }
@@ -72,7 +72,7 @@ export const patchUserProfile = async (req, res, next) => {
       return res.status(404).json({userProfile:  editUserProfile });
     }
 
-    res.status(201).json({ editUserProfile });
+    res.status(201).json('User profile updated successfully');
   } catch (error) {
     next(error);
   }

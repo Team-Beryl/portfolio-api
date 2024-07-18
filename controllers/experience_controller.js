@@ -28,7 +28,7 @@ export const postExperience = async (req, res, next) => {
     // save user with experience id
     await user.save();
 
-    res.status(201).json({ newExperience });
+    res.status(201).json('Experience added successfully');
   } catch (error) {
     next(error);
   }
@@ -71,7 +71,7 @@ export const updateExperience = async (req, res, next) => {
     if (!updateExperience) {
       return res.status(404).json({ Experience: updatedExperience });
     }
-    res.status(201).json({ updatedExperience });
+    res.status(201).json('Experience updated successfully');
   } catch (error) {
     next(error);
   }

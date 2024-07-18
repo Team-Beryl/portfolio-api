@@ -28,7 +28,7 @@ export const postProject = async (req, res, next) => {
     // save user with projects id
     await user.save();
 
-    res.status(201).json({ newProject });
+    res.status(201).json('Project added successfully');
   } catch (error) {
     next(error);
   }
@@ -69,7 +69,7 @@ export const updateProject = async (req, res, next) => {
     if (!updateProject) {
       return res.status(404).json({Projects: updatedProject });
     }
-    res.status(201).json({ updatedProject });
+    res.status(201).json('Project updated successfully');
   } catch (error) {
     next(error);
   }
