@@ -3,7 +3,7 @@ import { UserModel } from "../models/user_model.js";
 import { skillsSchema } from "../schema/skills_schema.js";
 
 
-export const createUserSkill = async (req, res) => {
+export const createUserSkill = async (req, res, next) => {
   try {
     const { error, value } = skillsSchema.validate(req.body);
 
@@ -30,12 +30,13 @@ export const createUserSkill = async (req, res) => {
     user.skills.push(skill._id);
     await user.save();
 
-    res.status(201).json({ skill });
+    res.status(201).json({message:"Skill added successfully", skill});
   } catch (error) {
-    console.log(error);
+    next(error);
     res.status(500).send("Internal server error");
   }
 };
+
 
 
 
@@ -72,7 +73,7 @@ export const updateUserSkill = async (req, res) => {
 
       const skill = await SkillsModel.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!skill) {
-            return res.status(404).json({ Skills: skill });
+            return res.status(404).json({message:"Skill updated successfully", skill});
         }
 
       res.status(200).json({ skill });

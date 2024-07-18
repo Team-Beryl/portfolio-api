@@ -26,7 +26,7 @@ export const createUserAchievement = async (req, res, next) => {
 
     await user.save();
 
-    res.status(201).json({ achievement });
+    res.status(201).json({message:"Achievement added successfully", achievement});
   } catch (error) {
     next(error);
   }
@@ -68,7 +68,7 @@ export const updateUserAchievement = async (req, res, next) => {
 
       const achievement = await AchievementsModel.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!achievement) {
-            return res.status(404).json({ Achievements: achievement });
+            return res.status(404).json({message:"Achievement updated successfully", achievement});
         }
 
       res.status(200).json({ achievement });
