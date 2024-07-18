@@ -45,7 +45,7 @@ export const getAllUserSkills = async (req, res) => {
     const id = req.session?.user?.id || req?.user?.id;
     const allSkill = await SkillsModel.find({ user: id });
     if (allSkill.length == 0) {
-      return res.status(404).send("No Skill added");
+      return res.status(404).json({ Skills: allSkill });
     }
     res.status(200).json({ Skills: allSkill });
   } catch (error) {
@@ -72,7 +72,7 @@ export const updateUserSkill = async (req, res) => {
 
       const skill = await SkillsModel.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!skill) {
-            return res.status(404).send("Skill not found");
+            return res.status(404).json({ Skills: skill });
         }
 
       res.status(200).json({ skill });

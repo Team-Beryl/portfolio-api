@@ -39,7 +39,7 @@ export const getAllUserProfile = async (req, res, next) => {
     const id = req.session?.user?.id || req?.user?.id;
     const allUserProfile = await UserProfileModel.find({ user: id });
     if (allUserProfile.length == 0) {
-      return res.status(404).send("No User Profile added");
+      return res.status(404).json({ userProfile: allUserProfile });
     }
     res.status(200).json({ userProfile: allUserProfile });
   } catch (error) {
@@ -69,7 +69,7 @@ export const patchUserProfile = async (req, res, next) => {
       { new: true }
     );
     if (!editUserProfile) {
-      return res.status(404).send("Profile not found");
+      return res.status(404).json({userProfile:  editUserProfile });
     }
 
     res.status(201).json({ editUserProfile });

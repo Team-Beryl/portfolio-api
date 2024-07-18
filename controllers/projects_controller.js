@@ -40,7 +40,7 @@ export const getAllUserProjects = async (req, res, next) => {
 
     const getAllProjects = await ProjectsModel.find({ user: id });
     if (getAllProjects.length == 0) {
-      return res.status(404).send("No projects added");
+      return res.status(404).json({ projects: getAllProjects });
     }
     res.status(200).json({ projects: getAllProjects });
   } catch (error) {
@@ -67,7 +67,7 @@ export const updateProject = async (req, res, next) => {
       { new: true }
     );
     if (!updateProject) {
-      return res.status(404).send("Project not found");
+      return res.status(404).json({Projects: updatedProject });
     }
     res.status(201).json({ updatedProject });
   } catch (error) {
