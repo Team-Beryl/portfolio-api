@@ -25,7 +25,7 @@ export const postVolunteering = async (req, res, next) => {
 
     await user.save();
 
-    res.status(201).json('Volunteering added successfully');
+    res.status(201).json({message:"Volunteering added successfully", newVolunteering});
   } catch (error) {
     next(error);
   }
@@ -68,7 +68,7 @@ export const updateVolunteering = async (req, res, next) => {
     if (!updatedVolunteering) {
       return res.status(404).json({Volunteering: updatedVolunteering });
     }
-    res.status(201).json('Volunteering updated successfully');
+    res.status(201).json({message:"Volunteering updated successfully", updatedVolunteering});
   } catch (error) {
     next(error);
   }

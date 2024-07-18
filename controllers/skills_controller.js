@@ -30,7 +30,7 @@ export const createUserSkill = async (req, res, next) => {
     user.skills.push(skill._id);
     await user.save();
 
-    res.status(201).json('Skill added successfully');
+    res.status(201).json({message:"Skill added successfully", skill});
   } catch (error) {
     next(error);
     res.status(500).send("Internal server error");
@@ -73,7 +73,7 @@ export const updateUserSkill = async (req, res) => {
 
       const skill = await SkillsModel.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!skill) {
-            return res.status(404).json('Skill updated successfully');
+            return res.status(404).json({message:"Skill updated successfully", skill});
         }
 
       res.status(200).json({ skill });
