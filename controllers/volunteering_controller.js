@@ -39,7 +39,7 @@ export const getAllUserVolunteering = async (req, res, next) => {
       user: id,
     });
     if (getAllVolunteering.length == 0) {
-      return res.status(404).send("No volunteering added");
+      return res.status(404).json({ volunteering: getAllVolunteering });
     }
     res.status(200).json({ volunteering: getAllVolunteering });
   } catch (error) {
@@ -66,7 +66,7 @@ export const updateVolunteering = async (req, res, next) => {
       { new: true }
     );
     if (!updatedVolunteering) {
-      return res.status(404).send("Volunteering not found");
+      return res.status(404).json({Volunteering: updatedVolunteering });
     }
     res.status(201).json({ updatedVolunteering });
   } catch (error) {

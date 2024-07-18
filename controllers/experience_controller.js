@@ -42,7 +42,7 @@ export const getAllUserExperience = async (req, res, next) => {
       user: id,
     });
     if (getAllExperience.length == 0) {
-      return res.status(404).send("No experience added");
+      return res.status(404).json({ experience: getAllExperience });
     }
     res.status(200).json({ experience: getAllExperience });
   } catch (error) {
@@ -69,7 +69,7 @@ export const updateExperience = async (req, res, next) => {
       { new: true }
     );
     if (!updateExperience) {
-      return res.status(404).send("Experience not found");
+      return res.status(404).json({ Experience: updatedExperience });
     }
     res.status(201).json({ updatedExperience });
   } catch (error) {

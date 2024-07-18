@@ -40,7 +40,7 @@ export const getAllUserAchievements = async (req, res, next) => {
     const id = req.session?.user?.id || req?.user?.id;
     const allAchievement = await AchievementsModel.find({ user: id });
     if (allAchievement.length == 0) {
-      return res.status(404).send("No Achievement added");
+      return res.status(404).json({ Achievements: allAchievement });
     }
     res.status(200).json({ Achievements: allAchievement });
   } catch (error) {
@@ -68,7 +68,7 @@ export const updateUserAchievement = async (req, res, next) => {
 
       const achievement = await AchievementsModel.findByIdAndUpdate(req.params.id, value, { new: true });
         if (!achievement) {
-            return res.status(404).send("Achievement not found");
+            return res.status(404).json({ Achievements: achievement });
         }
 
       res.status(200).json({ achievement });
