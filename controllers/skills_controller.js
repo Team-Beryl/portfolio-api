@@ -13,20 +13,27 @@ export const createUserSkill = async (req, res) => {
 
     const id = req.session?.user?.id || req?.user?.id;
 
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id).populate('skills');
     if (!user) {
       return res.status(404).send("User not found");
     }
 
+    const skillNameLowerCase = value.name.toLowerCase();
+    const skillExists = user.skills.find(skill => skill.name.toLowerCase() === skillNameLowerCase);
+
+    if (skillExists) {
+      return res.status(409).send("Skill already exists");
+    }
+
     const skill = await SkillsModel.create({ ...value, user: id });
 
-    user.skills.push(skill._id)
-
+    user.skills.push(skill._id);
     await user.save();
 
     res.status(201).json({ skill });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Internal server error");
   }
 };
 
