@@ -23,12 +23,12 @@ export const postProject = async (req, res, next) => {
     });
 
     // push projects id into user
-    user.projects.push(newProject.id);
+    user.projects.push(newProject._id);
 
     // save user with projects id
     await user.save();
 
-    res.status(201).json({message:"Project added successfully", newProject});
+    res.status(201).json({ message: "Project added successfully", newProject });
   } catch (error) {
     next(error);
   }
@@ -67,9 +67,11 @@ export const updateProject = async (req, res, next) => {
       { new: true }
     );
     if (!updateProject) {
-      return res.status(404).json({Projects: updatedProject });
+      return res.status(404).json({ Projects: updatedProject });
     }
-    res.status(201).json({message:"Project updated successfully", updatedProject});
+    res
+      .status(201)
+      .json({ message: "Project updated successfully", updatedProject });
   } catch (error) {
     next(error);
   }
@@ -96,12 +98,11 @@ export const deleteProject = async (req, res, next) => {
   }
 };
 
-
-export const getUserProject = async (req, res, next)=>{
+export const getUserProject = async (req, res, next) => {
   try {
-    const oneProject = await ProjectsModel.findById(req.params.id)
-    res.status(200).send(oneProject)
+    const oneProject = await ProjectsModel.findById(req.params.id);
+    res.status(200).send(oneProject);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};

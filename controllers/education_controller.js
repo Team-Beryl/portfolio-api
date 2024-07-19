@@ -23,12 +23,14 @@ export const postEducation = async (req, res, next) => {
     });
 
     // push education id into user
-    user.education.push(newEducation.id);
+    user.education.push(newEducation._id);
 
     // save user with education id
     await user.save();
 
-    res.status(201).json({message:"Education added successfully", newEducation});
+    res
+      .status(201)
+      .json({ message: "Education added successfully", newEducation });
   } catch (error) {
     next(error);
   }
@@ -69,7 +71,9 @@ export const updateEducation = async (req, res, next) => {
     if (!updateEducation) {
       return res.status(404).json({ Education: updatedEducation });
     }
-    res.status(201).json({message:"Educated updated successfully", updatedEducation});
+    res
+      .status(201)
+      .json({ message: "Educated updated successfully", updatedEducation });
   } catch (error) {
     next(error);
   }
@@ -98,11 +102,11 @@ export const deleteEducation = async (req, res, next) => {
   }
 };
 
-export const getUserEducation = async (req, res, next)=>{
- try {
-   const anEducation = await EducationModel.findById(req.params.id)
-   res.status(200).send(anEducation)
- }
- catch (error) {
-  next(error)
- }}
+export const getUserEducation = async (req, res, next) => {
+  try {
+    const anEducation = await EducationModel.findById(req.params.id);
+    res.status(200).send(anEducation);
+  } catch (error) {
+    next(error);
+  }
+};

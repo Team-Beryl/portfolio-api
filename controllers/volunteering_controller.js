@@ -21,11 +21,13 @@ export const postVolunteering = async (req, res, next) => {
       user: id,
     });
 
-    user.volunteering.push(newVolunteering.id);
+    user.volunteering.push(newVolunteering._id);
 
     await user.save();
 
-    res.status(201).json({message:"Volunteering added successfully", newVolunteering});
+    res
+      .status(201)
+      .json({ message: "Volunteering added successfully", newVolunteering });
   } catch (error) {
     next(error);
   }
@@ -33,7 +35,7 @@ export const postVolunteering = async (req, res, next) => {
 
 export const getAllUserVolunteering = async (req, res, next) => {
   try {
-    const id = req.session?.user?.id || req?.user?.id;;
+    const id = req.session?.user?.id || req?.user?.id;
 
     const getAllVolunteering = await VolunteeringModel.find({
       user: id,
@@ -66,9 +68,14 @@ export const updateVolunteering = async (req, res, next) => {
       { new: true }
     );
     if (!updatedVolunteering) {
-      return res.status(404).json({Volunteering: updatedVolunteering });
+      return res.status(404).json({ Volunteering: updatedVolunteering });
     }
-    res.status(201).json({message:"Volunteering updated successfully", updatedVolunteering});
+    res
+      .status(201)
+      .json({
+        message: "Volunteering updated successfully",
+        updatedVolunteering,
+      });
   } catch (error) {
     next(error);
   }
@@ -97,11 +104,11 @@ export const deleteVolunteering = async (req, res, next) => {
   }
 };
 
-export const getUserVolunteering = async (req, res, next)=>{
+export const getUserVolunteering = async (req, res, next) => {
   try {
-    const oneVolunteering = await VolunteeringModel.findById(req.params.id)
-    res.status(200).send(oneVolunteering)
+    const oneVolunteering = await VolunteeringModel.findById(req.params.id);
+    res.status(200).send(oneVolunteering);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
