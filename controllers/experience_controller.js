@@ -23,12 +23,14 @@ export const postExperience = async (req, res, next) => {
     });
 
     // push experience id to user
-    user.experiences.push(newExperience.id);
+    user.experiences.push(newExperience._id);
 
     // save user with experience id
     await user.save();
 
-    res.status(201).json({message:"Experience added successfully", newExperience});
+    res
+      .status(201)
+      .json({ message: "Experience added successfully", newExperience });
   } catch (error) {
     next(error);
   }
@@ -71,7 +73,9 @@ export const updateExperience = async (req, res, next) => {
     if (!updateExperience) {
       return res.status(404).json({ Experience: updatedExperience });
     }
-    res.status(201).json({message:"Experience updated successfully", updatedExperience});
+    res
+      .status(201)
+      .json({ message: "Experience updated successfully", updatedExperience });
   } catch (error) {
     next(error);
   }
@@ -100,12 +104,11 @@ export const deleteExperience = async (req, res, next) => {
   }
 };
 
-
-export const getUserExperience = async (req, res, next)=>{
+export const getUserExperience = async (req, res, next) => {
   try {
-    const anExperience = await ExperienceModel.findById(req.params.id)
-    res.status(200).send(anExperience)
+    const anExperience = await ExperienceModel.findById(req.params.id);
+    res.status(200).send(anExperience);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
