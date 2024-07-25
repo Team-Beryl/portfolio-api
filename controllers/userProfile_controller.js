@@ -2,7 +2,7 @@ import { UserProfileModel } from "../models/userProfile_model.js";
 import { UserModel } from "../models/user_model.js";
 import { userProfileSchema } from "../schema/user_profile_validation.js";
 
-export const postUserProfile = async (req, res, next) => {
+export const postUserProfile = async (req, res) => {
   try {
     const { error, value } = userProfileSchema.validate({
       ...req.body,
@@ -50,36 +50,47 @@ export const getAllUserProfile = async (req, res, next) => {
   }
 };
 
-export const patchUserProfile = async (req, res, next) => {
+export const patchUserProfile = async (req, res) => {
   try {
-    const { error, value } = userProfileSchema.validate({
-      ...req.body,
-      profilePicture: req.files.profilePicture[0].filename,
-    });
+    const updateFields = { ...req.body };
+
+    if (req.file?.profilePicture) {
+      console.log("req.file", req.file, updateFields);
+
+      updateFields.profilePicture = req.file.filename;
+    } else if (req.files?.profilePicture) {
+      updateFields.profilePicture = req.files.profilePicture[0].filename;
+    }
+
+    const { error, value } = userProfileSchema.validate(updateFields);
     if (error) {
       return res.status(400).send(error.details[0].message);
     }
 
-    const id = req.session?.user?.id || req?.user?.id;
-    const user = await UserModel.findById(id);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
+
+    const userId = req.session?.user?.id || req?.user.id;
+    const user = await UserModel.findById(userId);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
-    const editUserProfile = await UserProfileModel.findByIdAndUpdate(
+    const profile = await UserProfileModel.findByIdAndUpdate(
       req.params.id,
       value,
-      { new: true }
+      {
+        new: true,
+      }
     );
-    if (!editUserProfile) {
-      return res.status(404).json({ userProfile: editUserProfile });
+    if (!profile) {
+      return res.status(404).send("Profile not found");
     }
 
-    res
-      .status(201)
-      .json({ message: "User profile updated successfully", editUserProfile });
+    res.status(201).json({ profile });
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 };
 
@@ -95,7 +106,7 @@ export const deleteUserProfile = async (req, res, next) => {
       req.params.id
     );
     if (!deleteUserProfile) {
-      return res.status(404).send("Education not found");
+      return res.status(404).send("Profile not found");
     }
 
     user.userProfile.pull(req.params.id);
